@@ -1,0 +1,9 @@
+﻿{
+	"extends": "./tsconfig.json",
+	"include": ["src/**/*", "test/**/*"],
+	"compilerOptions": {
+		"rootDir": ".",
+		"types": ["vitest/globals", "node"],
+		"skipLibCheck": true
+	}
+}
