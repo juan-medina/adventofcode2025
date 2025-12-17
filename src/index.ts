@@ -32,12 +32,27 @@ function readInput(inputPath: string, day: number): string {
 	return fs.readFileSync(inputPath, "utf-8");
 }
 
+
+function measureTime<T>(fn: () => T): { result: T; ms: number } {
+	const start = process.hrtime.bigint();
+	const result = fn();
+	const end = process.hrtime.bigint();
+	const ms = Number(end - start) / 1_000_000;
+	return { result, ms };
+}
+
+
+function runPart(label: string, fn: () => unknown) {
+	const { result, ms } = measureTime(fn);
+	console.log(`- ${label}:`, result, `(in ${ms.toFixed(2)} ms)`);
+}
+
 function runDay(day: number, inputPath: string) {
 	console.log(`Day ${day}:`);
 	const solver = getSolver(day);
 	const input = readInput(inputPath, day);
-	console.log("- Part 1:", solver.part1(input));
-	console.log("- Part 2:", solver.part2(input));
+	runPart('Part 1', () => solver.part1(input));
+	runPart('Part 2', () => solver.part2(input));
 }
 
 function main(args: string[]) {
