@@ -68,4 +68,11 @@ function main(args: string[]) {
 	}
 }
 
-main(process.argv.slice(2));
+// Export functions for unit testing
+export { parseArgs, getSolver, readInput, measureTime, runPart, runDay, main };
+
+// Ensure the script runs only when executed directly
+declare const require: any;
+if (typeof require !== "undefined" && require.main === module) {
+	main(process.argv.slice(2));
+}
