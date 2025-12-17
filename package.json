@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "start": "ts-node src/index.ts",
-    "test": "vitest run"
+    "test": "vitest run --coverage"
   },
   "keywords": [
     "adventofcode",
@@ -17,6 +17,7 @@
   "description": "",
   "devDependencies": {
     "@types/node": "^25.0.2",
+    "@vitest/coverage-v8": "^4.0.16",
     "ts-dedent": "^2.2.0",
     "ts-node": "^10.9.2",
     "vitest": "^4.0.15"
