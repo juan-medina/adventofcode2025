@@ -1,5 +1,4 @@
-﻿// typescript
-// SPDX-FileCopyrightText: 2025 Juan Medina
+﻿// SPDX-FileCopyrightText: 2025 Juan Medina
 // SPDX-License-Identifier: MIT
 
 import {describe, it, expect, vi} from "vitest";
