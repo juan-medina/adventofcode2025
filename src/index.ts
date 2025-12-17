@@ -58,7 +58,7 @@ function runDay(day: number, inputPath: string) {
 }
 
 function main(args: string[]) {
-	console.log(chalk.bold.bgYellow.black("\nAdvent of Code 2025\n"));
+	console.log(chalk.bold.bgYellow.white("\nAdvent of Code 2025\n"));
 	try {
 		const { day, inputPath } = parseArgs(args);
 		runDay(day, inputPath);
