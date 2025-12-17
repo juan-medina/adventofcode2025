@@ -21,7 +21,7 @@ function parseArgs(args: string[]): { day: number; inputPath: string } {
 function getSolver(day: number) {
 	const solver = Solvers[day];
 	if (!solver) {
-		throw new Error(chalk.yellow("Not implemented yet."));
+		throw new Error(chalk.red("Not implemented yet."));
 	}
 	return solver;
 }
@@ -63,7 +63,7 @@ function main(args: string[]) {
 		const { day, inputPath } = parseArgs(args);
 		runDay(day, inputPath);
 	} catch (err: any) {
-		console.error(err.message);
+		console.error(chalk.red(err.message));
 		process.exit(1);
 	}
 }
