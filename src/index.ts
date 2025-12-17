@@ -3,15 +3,16 @@
 
 import * as fs from "fs";
 import * as path from "path";
-import {Solvers} from "./days";
+import chalk from "chalk";
+import { Solvers } from "./days";
 
 function parseArgs(args: string[]): { day: number; inputPath: string } {
 	if (args.length < 1) {
-		throw new Error("Usage: node start <day>");
+		throw new Error(chalk.red("Usage: node start <day>"));
 	}
 	const day = Number(args[0]);
 	if (isNaN(day) || day < 1 || day > 12) {
-		throw new Error("Day must be a number between 1 and 12.");
+		throw new Error(chalk.red("Day must be a number between 1 and 12."));
 	}
 	const inputPath = args[1] || path.join("data", args[0].padStart(2, "0") + ".txt");
 	return { day, inputPath };
@@ -20,14 +21,14 @@ function parseArgs(args: string[]): { day: number; inputPath: string } {
 function getSolver(day: number) {
 	const solver = Solvers[day];
 	if (!solver) {
-		throw new Error("Not implemented yet.");
+		throw new Error(chalk.yellow("Not implemented yet."));
 	}
 	return solver;
 }
 
 function readInput(inputPath: string, day: number): string {
 	if (!fs.existsSync(inputPath)) {
-		throw new Error(`No data file for day ${day} at path: ${inputPath}`);
+		throw new Error(chalk.red(`No data file for day ${day} at path: ${inputPath}`));
 	}
 	return fs.readFileSync(inputPath, "utf-8");
 }
@@ -44,11 +45,12 @@ function measureTime<T>(fn: () => T): { result: T; ms: number } {
 
 function runPart(label: string, fn: () => unknown) {
 	const { result, ms } = measureTime(fn);
-	console.log(`- ${label}:`, result, `(in ${ms.toFixed(2)} ms)`);
+	const color = label === 'Part 1' ? chalk.cyan : chalk.magenta;
+	console.log(color(`- ${label}:`), chalk.green(result), chalk.gray(`(in ${ms.toFixed(2)} ms)`));
 }
 
 function runDay(day: number, inputPath: string) {
-	console.log(`Day ${day}:`);
+	console.log(chalk.bold.blueBright(`\nDay ${day}:`));
 	const solver = getSolver(day);
 	const input = readInput(inputPath, day);
 	runPart('Part 1', () => solver.part1(input));
@@ -56,7 +58,7 @@ function runDay(day: number, inputPath: string) {
 }
 
 function main(args: string[]) {
-	console.log("Advent of Code 2025\n");
+	console.log(chalk.bold.bgYellow.black("\nAdvent of Code 2025\n"));
 	try {
 		const { day, inputPath } = parseArgs(args);
 		runDay(day, inputPath);

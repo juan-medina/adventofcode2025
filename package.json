@@ -6,7 +6,12 @@
     "start": "ts-node src/index.ts",
     "test": "vitest run"
   },
-  "keywords": ["adventofcode", "2025", "typescript", "ts"],
+  "keywords": [
+    "adventofcode",
+    "2025",
+    "typescript",
+    "ts"
+  ],
   "author": "Juan Medina",
   "license": "MIT",
   "description": "",
@@ -15,5 +20,8 @@
     "ts-dedent": "^2.2.0",
     "ts-node": "^10.9.2",
     "vitest": "^4.0.15"
+  },
+  "dependencies": {
+    "chalk": "^5.6.2"
   }
 }
