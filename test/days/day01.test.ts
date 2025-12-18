@@ -35,6 +35,23 @@ describe('Day 1', () => {
 		]);
 	})
 
+	it('mod arrow function behaves correctly', () => {
+		const mod = (day01 as any).mod as (n: number) => number;
+
+		expect(mod(0)).toBe(0);
+		expect(mod(1)).toBe(1);
+		expect(mod(99)).toBe(99);
+		expect(mod(100)).toBe(0);
+		expect(mod(101)).toBe(1);
+
+		expect(mod(-1)).toBe(99);
+		expect(mod(-100)).toBe(0);
+		expect(mod(-101)).toBe(99);
+
+		// larger values
+		expect(mod(199)).toBe(99);
+		expect(mod(-199)).toBe(1);
+	});
 
 	it('solves part 1 example', () => {
 		expect(day01.part1(input)).toBe("3");

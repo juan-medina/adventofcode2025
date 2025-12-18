@@ -15,19 +15,18 @@ export interface Sequence {
 
 export class Day01 extends Day {
 
-	public position: number = 50;
+	private static readonly end: number = 100;
+	public position: number | undefined;
 
-	private mod(n: number, m: number = 100): number {
-		return ((n % m) + m) % m;
-	}
+	private mod = (n: number): number => ((n % Day01.end) + Day01.end) % Day01.end;
 
 	private solve(input: string, part: number): string {
-		this.position = 50; // reset position for each part
+		this.position = Day01.end / 2; // reset position for each part
 		let zeros = 0;
 		const sequences = this.parse(input);
 
 		for (const seq of sequences) {
-			const reposition = this.mod(this.position + seq.direction * seq.steps, 100);
+			const reposition = this.mod(this.position + seq.direction * seq.steps);
 
 			if (part === 1) {
 				// only check final position once per sequence
@@ -35,9 +34,9 @@ export class Day01 extends Day {
 			} else {
 				// check all positions in the sequence
 				const remainder = this.mod(-seq.direction * this.position);
-				const first = remainder === 0 ? 100 : remainder;
+				const first = remainder === 0 ? Day01.end : remainder;
 				if (seq.steps >= first) {
-					zeros += 1 + Math.floor((seq.steps - first) / 100);
+					zeros += 1 + Math.floor((seq.steps - first) / Day01.end);
 				}
 			}
 
