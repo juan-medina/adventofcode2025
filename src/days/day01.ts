@@ -17,29 +17,37 @@ export class Day01 extends Day {
 
 	public position: number = 50;
 
+	private mod(n: number, m: number = 100): number {
+		return ((n % m) + m) % m;
+	}
+
 	private solve(input: string, part: number): string {
 		this.position = 50; // reset position for each part
-		var totalZeros = 0;
-		var sequences = this.parse(input);
-		console.log(`The dial starts by pointing at ${this.position}`);
+		let totalZeros = 0;
+		const sequences = this.parse(input);
 
 		for (const seq of sequences) {
-			const directionFactor = seq.direction === Direction.Left ? -1 : 1;
-			for (let step = 0; step < seq.steps; step++) {
-				this.position += directionFactor;
-				if (this.position < 0) {
-					this.position = 99;
-				} else if (this.position > 99) {
-					this.position = 0;
-				}
-				if (part === 2 && this.position === 0) {
-					totalZeros++;
+			const d = seq.direction === Direction.Left ? -1 : 1;
+
+			// compute new position arithmetically
+			const reposition = this.mod(this.position + d * seq.steps, 100);
+
+			if (part === 1) {
+				// only check final position once per sequence
+				if (reposition === 0) totalZeros++;
+			} else {
+				// count how many steps k in 1..steps satisfy (position + d*k) % 100 == 0
+				// solve k ≡ -d * position (mod 100)
+				const k = d === 1 ? this.mod(100 - this.position) : this.mod(this.position);
+				const first = k === 0 ? 100 : k;
+				if (seq.steps >= first) {
+					totalZeros += 1 + Math.floor((seq.steps - first) / 100);
 				}
 			}
-			if (part === 1 && this.position === 0) {
-				totalZeros++;
-			}
+
+			this.position = reposition;
 		}
+
 		return totalZeros.toString();
 	}
 
@@ -65,7 +73,6 @@ export class Day01 extends Day {
 				return {direction, steps};
 			});
 	}
-
 
 }
 
