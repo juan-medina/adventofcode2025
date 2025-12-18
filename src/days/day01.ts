@@ -4,8 +4,8 @@
 import {Day} from "./day";
 
 export enum Direction {
-	Left = "L",
-	Right = "R",
+	Left = -1,
+	Right = 1,
 }
 
 export interface Sequence {
@@ -23,32 +23,28 @@ export class Day01 extends Day {
 
 	private solve(input: string, part: number): string {
 		this.position = 50; // reset position for each part
-		let totalZeros = 0;
+		let zeros = 0;
 		const sequences = this.parse(input);
 
 		for (const seq of sequences) {
-			const d = seq.direction === Direction.Left ? -1 : 1;
-
-			// compute new position arithmetically
-			const reposition = this.mod(this.position + d * seq.steps, 100);
+			const reposition = this.mod(this.position + seq.direction * seq.steps, 100);
 
 			if (part === 1) {
 				// only check final position once per sequence
-				if (reposition === 0) totalZeros++;
+				if (reposition === 0) zeros++;
 			} else {
-				// count how many steps k in 1..steps satisfy (position + d*k) % 100 == 0
-				// solve k ≡ -d * position (mod 100)
-				const k = d === 1 ? this.mod(100 - this.position) : this.mod(this.position);
-				const first = k === 0 ? 100 : k;
+				// check all positions in the sequence
+				const remainder = this.mod(-seq.direction * this.position);
+				const first = remainder === 0 ? 100 : remainder;
 				if (seq.steps >= first) {
-					totalZeros += 1 + Math.floor((seq.steps - first) / 100);
+					zeros += 1 + Math.floor((seq.steps - first) / 100);
 				}
 			}
 
 			this.position = reposition;
 		}
 
-		return totalZeros.toString();
+		return zeros.toString();
 	}
 
 	part1(input: string): string {
@@ -68,7 +64,7 @@ export class Day01 extends Day {
 				const m = line.match(/^([LR])\s*(\d+)$/i);
 				if (!m) throw new Error(`Invalid sequence line: ${line}`);
 				const letter = m[1].toUpperCase();
-				const direction = letter as Direction; // assume valid `L` or `R`
+				const direction = (letter === 'L') ? Direction.Left : Direction.Right;
 				const steps = Number(m[2]);
 				return {direction, steps};
 			});
