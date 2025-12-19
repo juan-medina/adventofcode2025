@@ -3,6 +3,18 @@
 
 import {Day} from "./day";
 
+export function invalidId(id: number): boolean {
+	let str = id.toString();
+	if (str.length % 2 === 0) {
+		const first = str.slice(0, Math.floor(str.length / 2));
+		const last = str.slice(Math.floor(str.length / 2));
+		if (first === last) {
+			return true
+		}
+	}
+	return false;
+}
+
 export class Range {
 	constructor(public first: number, public last: number) {
 	}
@@ -18,13 +30,8 @@ export class Range {
 	invalidIds(): number[] {
 		const out: number[] = [];
 		for (let id = this.first; id <= this.last; id++) {
-			let str = id.toString();
-			if (str.length % 2 === 0) {
-				const first = str.slice(0, Math.floor(str.length / 2));
-				const last = str.slice(Math.floor(str.length / 2));
-				if (first === last) {
-					out.push(id);
-				}
+			if (invalidId(id)) {
+				out.push(id);
 			}
 		}
 		return out;
@@ -38,7 +45,7 @@ export class Day02 extends Day {
 		const ranges = this.parse(input);
 		for (const range of ranges) {
 			const invalidIds = range.invalidIds();
-			for(const id of invalidIds) {
+			for (const id of invalidIds) {
 				totalInvalid += id;
 			}
 		}

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MIT
 
 import {describe, expect, it} from 'vitest';
-import {day02, Range} from '../../src/days/day02';
+import {day02, invalidId, Range} from '../../src/days/day02';
 
 describe('Day 2', () => {
 	it('range parses correctly', () => {
@@ -49,4 +49,14 @@ describe('Day 2', () => {
 	it('solves part 1 example', () => {
 		expect(day02.part1(input)).toBe("1227775554");
 	});
+
+	it('invalid id detection works', () => {
+		expect(invalidId(11)).toBe(true);
+		expect(invalidId(22)).toBe(true);
+		expect(invalidId(99)).toBe(true);
+		expect(invalidId(123123)).toBe(true);
+		expect(invalidId(1234)).toBe(false);
+		expect(invalidId(111)).toBe(false);
+	});
+
 });
