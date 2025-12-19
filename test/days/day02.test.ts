@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MIT
 
 import {describe, expect, it} from 'vitest';
-import {day02, invalidId, Range} from '../../src/days/day02';
+import {day02, Range, repeated} from '../../src/days/day02';
 
 describe('Day 2', () => {
 	it('range parses correctly', () => {
@@ -22,16 +22,19 @@ describe('Day 2', () => {
 
 	it('invalid ids works', () => {
 		const range1 = new Range(11, 22);
-		expect(range1.invalidIds()).toEqual([11, 22]);
+		expect(range1.invalidIds(2)).toEqual([11, 22]);
 
 		const range2 = new Range(95, 115);
-		expect(range2.invalidIds()).toEqual([99]);
+		expect(range2.invalidIds(2)).toEqual([99]);
 
 		const range3 = new Range(998, 1012);
-		expect(range3.invalidIds()).toEqual([1010]);
+		expect(range3.invalidIds(2)).toEqual([1010]);
 
 		const range4 = new Range(1188511880, 1188511890);
-		expect(range4.invalidIds()).toEqual([1188511885]);
+		expect(range4.invalidIds(2)).toEqual([1188511885]);
+
+		const range5 = new Range(95, 115);
+		expect(range5.invalidIds(99)).toEqual([99, 111]);
 	});
 
 	it('parses input correctly', () => {
@@ -50,13 +53,18 @@ describe('Day 2', () => {
 		expect(day02.part1(input)).toBe("1227775554");
 	});
 
-	it('invalid id detection works', () => {
-		expect(invalidId(11)).toBe(true);
-		expect(invalidId(22)).toBe(true);
-		expect(invalidId(99)).toBe(true);
-		expect(invalidId(123123)).toBe(true);
-		expect(invalidId(1234)).toBe(false);
-		expect(invalidId(111)).toBe(false);
+	it('solves part 2 example', () => {
+		expect(day02.part2(input)).toBe("4174379265");
+	});
+
+	it('repeated digits are detected correctly', () => {
+		expect(repeated(11)).toBe(2);
+		expect(repeated(22)).toBe(2);
+		expect(repeated(1010)).toBe(2);
+		expect(repeated(123123123)).toBe(3);
+		expect(repeated(123)).toBe(0);
+		expect(repeated(123123122)).toBe(0);
+		expect(repeated(222222)).toBe(2);
 	});
 
 });

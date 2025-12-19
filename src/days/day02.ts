@@ -3,16 +3,20 @@
 
 import {Day} from "./day";
 
-export function invalidId(id: number): boolean {
-	let str = id.toString();
-	if (str.length % 2 === 0) {
-		const first = str.slice(0, Math.floor(str.length / 2));
-		const last = str.slice(Math.floor(str.length / 2));
-		if (first === last) {
-			return true
+export function repeated(id: number): number {
+	const str = id.toString();
+	const halfLength = Math.floor(str.length / 2);
+	for (let len = halfLength; len >= 1; len--) {
+		if (str.length % len !== 0) {
+			continue; // cant fill the whole string
+		}
+		const chunk = str.slice(0, len);
+		const repeats = str.length / len; // how many to repeat
+		if (chunk.repeat(repeats) === str) {
+			return repeats;
 		}
 	}
-	return false;
+	return 0;
 }
 
 export class Range {
@@ -27,33 +31,33 @@ export class Range {
 		return out;
 	}
 
-	invalidIds(): number[] {
+	invalidIds(max: number): number[] {
 		const out: number[] = [];
 		for (let id = this.first; id <= this.last; id++) {
-			if (invalidId(id)) {
-				out.push(id);
-			}
+			const repeats = repeated(id);
+			(repeats > 0 && repeats <= max) && out.push(id);
 		}
 		return out;
 	}
 }
 
 export class Day02 extends Day {
-	part1(input: string): string {
+	solve(input: string, part: number): string {
 		var totalInvalid = 0;
-
-		const ranges = this.parse(input);
-		for (const range of ranges) {
-			const invalidIds = range.invalidIds();
-			for (const id of invalidIds) {
+		for (const range of this.parse(input)) {
+			for (const id of range.invalidIds(part == 1 ? 2 : 99)) {
 				totalInvalid += id;
 			}
 		}
 		return totalInvalid.toString();
 	}
 
+	part1(input: string): string {
+		return this.solve(input, 1);
+	}
+
 	part2(input: string): string {
-		return "not implemented yet";
+		return this.solve(input, 2);
 	}
 
 	public range(value: string): Range {
