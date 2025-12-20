@@ -24,15 +24,8 @@ describe('Day 3', () => {
 
 
 	it('bank from line works', () => {
-		expect(Bank.fromLine("123").batteries).toEqual([
-			{value: 1, index: 0},
-			{value: 2, index: 1},
-			{value: 3, index: 2},
-		]);
-		expect(Bank.fromLine("52").batteries).toEqual([
-			{value: 5, index: 0},
-			{value: 2, index: 1},
-		]);
+		expect(Bank.fromLine("123").batteries).toEqual([1, 2, 3]);
+		expect(Bank.fromLine("52").batteries).toEqual([5, 2]);
 	});
 
 
@@ -43,16 +36,8 @@ describe('Day 3', () => {
 		`;
 		const banks = day03.parse(data);
 		expect(banks.length).toBe(2);
-		expect(banks[0].batteries).toEqual([
-			{value: 1, index: 0},
-			{value: 2, index: 1},
-			{value: 3, index: 2},
-		]);
-		expect(banks[1].batteries).toEqual([
-			{value: 4, index: 0},
-			{value: 5, index: 1},
-			{value: 6, index: 2},
-		]);
+		expect(banks[0].batteries).toEqual([1, 2, 3]);
+		expect(banks[1].batteries).toEqual([4, 5, 6]);
 	});
 
 	it('joltage calculation works', () => {
@@ -67,5 +52,4 @@ describe('Day 3', () => {
 		expect(Bank.fromLine("818181911112111").joltage(12)).toBe(888911112111);
 	});
 
-})
-;
+});

@@ -3,47 +3,36 @@
 
 import {Day} from "./day";
 
-
-interface Battery {
-	value: number;
-	index: number;
-}
-
 export class Bank {
-	batteries: Battery[];
+	batteries: number[];
 
-	constructor(batteries: Battery[]) {
+	constructor(batteries: number[]) {
 		this.batteries = batteries;
 	}
 
 	static fromLine(line: string): Bank {
-		const values = line.split("").map(ch => parseInt(ch, 10));
-		const batteries = values.map((v, i) => ({
-			value: v, index: i
-		}));
-		return new Bank(batteries);
+		return new Bank(line.split("").map(ch => parseInt(ch, 10)));
 	}
 
-	public joltage(batteries: number): number {
+	public joltage(batteries: number): number { // remove k-digits like algorithm
 		const stack: number[] = [];
 		let removing = this.batteries.length - batteries; // how many we drop
 
 		for (let i = 0; i < this.batteries.length; i++) {
-			const digit = this.batteries[i].value;
+			const digit = this.batteries[i];
 			while (stack.length > 0 && removing > 0 && stack[stack.length - 1] < digit) {
 				stack.pop();
 				removing--;
 			}
 			stack.push(digit);
 		}
-		return parseInt(stack.slice(0, batteries).join(""));
+		return parseInt(stack.slice(0, batteries).join(""), 10);
 	}
 }
 
 export class Day03 extends Day {
-
 	solve(input: string, part: number): string {
-		return this.parse(input).reduce((sum, bank) => sum + bank.joltage(part == 1 ? 2 : 12), 0).toString();
+		return this.parse(input).reduce((sum, bank) => sum + bank.joltage(part === 1 ? 2 : 12), 0).toString();
 	}
 
 	part1(input: string): string {
@@ -55,7 +44,7 @@ export class Day03 extends Day {
 	}
 
 	parse(input: string): Bank[] {
-		return input.split("\n").map(line => Bank.fromLine(line));
+		return input.split("\n").map(line => line.trim()).map(line => Bank.fromLine(line));
 	}
 }
 
