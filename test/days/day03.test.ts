@@ -19,7 +19,7 @@ describe('Day 3', () => {
 	});
 
 	it('solves part 2 example', () => {
-		expect(day03.part2(input)).toBe("357");
+		expect(day03.part2(input)).toBe("3121910778619");
 	});
 
 
@@ -56,10 +56,15 @@ describe('Day 3', () => {
 	});
 
 	it('joltage calculation works', () => {
-		expect(Bank.fromLine("987654321111111").joltage()).toBe(98);
-		expect(Bank.fromLine("811111111111119").joltage()).toBe(89);
-		expect(Bank.fromLine("234234234234278").joltage()).toBe(78);
-		expect(Bank.fromLine("818181911112111").joltage()).toBe(92);
+		expect(Bank.fromLine("987654321111111").joltage(2)).toBe(98);
+		expect(Bank.fromLine("811111111111119").joltage(2)).toBe(89);
+		expect(Bank.fromLine("234234234234278").joltage(2)).toBe(78);
+		expect(Bank.fromLine("818181911112111").joltage(2)).toBe(92);
+
+		expect(Bank.fromLine("987654321111111").joltage(12)).toBe(987654321111);
+		expect(Bank.fromLine("811111111111119").joltage(12)).toBe(811111111119);
+		expect(Bank.fromLine("234234234234278").joltage(12)).toBe(434234234278);
+		expect(Bank.fromLine("818181911112111").joltage(12)).toBe(888911112111);
 	});
 
 })

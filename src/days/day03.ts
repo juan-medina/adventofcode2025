@@ -24,32 +24,34 @@ export class Bank {
 		return new Bank(batteries);
 	}
 
-	public joltage(): number {
-		if (this.batteries.length === 0) return 0;
-		if (this.batteries.length === 1) return this.batteries[0].value;
+	public joltage(batteries: number): number {
+		const stack: number[] = [];
+		let removing = this.batteries.length - batteries; // how many we drop
 
-		let max = Number.NEGATIVE_INFINITY;
-		for (let i = 0; i < this.batteries.length - 1; i++) {
-			const a = this.batteries[i].value;
-			for (let j = i + 1; j < this.batteries.length; j++) {
-				const b = this.batteries[j].value;
-				const both = a * 10 + b;
-				if (both > max) max = both;
+		for (let i = 0; i < this.batteries.length; i++) {
+			const digit = this.batteries[i].value;
+			while (stack.length > 0 && removing > 0 && stack[stack.length - 1] < digit) {
+				stack.pop();
+				removing--;
 			}
+			stack.push(digit);
 		}
-
-		return max;
+		return parseInt(stack.slice(0, batteries).join(""));
 	}
 }
 
 export class Day03 extends Day {
 
+	solve(input: string, part: number): string {
+		return this.parse(input).reduce((sum, bank) => sum + bank.joltage(part == 1 ? 2 : 12), 0).toString();
+	}
+
 	part1(input: string): string {
-		return this.parse(input).reduce((sum, bank) => sum + bank.joltage(), 0).toString();
+		return this.solve(input, 1);
 	}
 
 	part2(input: string): string {
-		return this.part1(input);
+		return this.solve(input, 2);
 	}
 
 	parse(input: string): Bank[] {
