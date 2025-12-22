@@ -30,9 +30,9 @@ describe('Day 5', () => {
 		expect(range.contains(8)).toBe(false);
 	});
 
-	it('range array', () => {
+	it('range size', () => {
 		const range = new Range(3, 7);
-		expect(range.array()).toEqual([3, 4, 5, 6, 7]);
+		expect(range.size()).toBe(5);
 	});
 
 	it('range from string', () => {
@@ -65,7 +65,46 @@ describe('Day 5', () => {
 		expect(db.ingredients).toEqual([1, 3, 8]);
 	});
 
+	it('merges ranges', () => {
+		const ranges = [
+			new Range(16, 20),
+			new Range(12, 18),
+			new Range(3, 5),
+			new Range(10, 14),
+		];
+
+		const merged = Range.merge(ranges);
+
+		expect(merged.length).toBe(2);
+		expect(merged[0].start).toBe(3);
+		expect(merged[0].end).toBe(5);
+		expect(merged[1].start).toBe(10);
+		expect(merged[1].end).toBe(20);
+	});
+
+	it(`database compacts ranges`, () => {
+		const db = new Database();
+		db.fresh = [
+			new Range(16, 20),
+			new Range(12, 18),
+			new Range(3, 5),
+			new Range(10, 14),
+		];
+
+		db.compact();
+
+		expect(db.fresh.length).toBe(2);
+		expect(db.fresh[0].start).toBe(3);
+		expect(db.fresh[0].end).toBe(5);
+		expect(db.fresh[1].start).toBe(10);
+		expect(db.fresh[1].end).toBe(20);
+	});
+
 	it('solves part 1 example', () => {
 		expect(day05.part1(input)).toBe("3");
+	});
+
+	it('solves part 2 example', () => {
+		expect(day05.part2(input)).toBe("14");
 	});
 });
