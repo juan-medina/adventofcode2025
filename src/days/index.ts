@@ -8,6 +8,7 @@ import {day02} from "./day02";
 import {day03} from "./day03";
 import {day04} from "./day04";
 import {day05} from "./day05";
+import {day06} from "./day06";
 
 export const Solvers: Record<number, Day> = {
 	1: day01,
@@ -15,4 +16,5 @@ export const Solvers: Record<number, Day> = {
 	3: day03,
 	4: day04,
 	5: day05,
+	6: day06,
 };
