@@ -24,8 +24,8 @@ describe('Day 3', () => {
 
 
 	it('bank from line works', () => {
-		expect(Bank.fromLine("123").batteries).toEqual([1, 2, 3]);
-		expect(Bank.fromLine("52").batteries).toEqual([5, 2]);
+		expect(Bank.from("123").batteries).toEqual([1, 2, 3]);
+		expect(Bank.from("52").batteries).toEqual([5, 2]);
 	});
 
 
@@ -41,15 +41,15 @@ describe('Day 3', () => {
 	});
 
 	it('joltage calculation works', () => {
-		expect(Bank.fromLine("987654321111111").joltage(2)).toBe(98);
-		expect(Bank.fromLine("811111111111119").joltage(2)).toBe(89);
-		expect(Bank.fromLine("234234234234278").joltage(2)).toBe(78);
-		expect(Bank.fromLine("818181911112111").joltage(2)).toBe(92);
+		expect(Bank.from("987654321111111").joltage(2)).toBe(98);
+		expect(Bank.from("811111111111119").joltage(2)).toBe(89);
+		expect(Bank.from("234234234234278").joltage(2)).toBe(78);
+		expect(Bank.from("818181911112111").joltage(2)).toBe(92);
 
-		expect(Bank.fromLine("987654321111111").joltage(12)).toBe(987654321111);
-		expect(Bank.fromLine("811111111111119").joltage(12)).toBe(811111111119);
-		expect(Bank.fromLine("234234234234278").joltage(12)).toBe(434234234278);
-		expect(Bank.fromLine("818181911112111").joltage(12)).toBe(888911112111);
+		expect(Bank.from("987654321111111").joltage(12)).toBe(987654321111);
+		expect(Bank.from("811111111111119").joltage(12)).toBe(811111111119);
+		expect(Bank.from("234234234234278").joltage(12)).toBe(434234234278);
+		expect(Bank.from("818181911112111").joltage(12)).toBe(888911112111);
 	});
 
 });

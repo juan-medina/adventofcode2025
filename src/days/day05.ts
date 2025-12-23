@@ -21,7 +21,7 @@ export class Range {
 		return this.end - this.start + 1;
 	}
 
-	static fromString(rangeStr: string): Range {
+	static from(rangeStr: string): Range {
 		const [star, end] = rangeStr.split("-");
 		return new Range(parseInt(star, 10), parseInt(end, 10));
 	}
@@ -53,11 +53,11 @@ export class Database {
 		this.fresh = Range.merge(this.fresh);
 	}
 
-	static fromString(input: string): Database {
+	static from(input: string): Database {
 		const db = new Database();
 		for (const line of input.split("\n")) {
 			if (line.includes("-")) {
-				db.fresh.push(Range.fromString(line));
+				db.fresh.push(Range.from(line));
 			} else if (line.trim() !== "") {
 				db.ingredients.push(parseInt(line, 10));
 			}
@@ -68,7 +68,7 @@ export class Database {
 
 	freshIngredients(part: number): number {
 		if (part === 1) return this.ingredients.reduce(
-			(count, ingredient) => this.fresh.some(range => range.contains(ingredient)) ? count + 1 : count,0);
+			(count, ingredient) => this.fresh.some(range => range.contains(ingredient)) ? count + 1 : count, 0);
 
 		return this.fresh.reduce((sum, range) => sum + range.size(), 0);
 	};
@@ -76,11 +76,11 @@ export class Database {
 
 export class Day05 extends Day {
 	part1(input: string): string {
-		return Database.fromString(input).freshIngredients(1).toString();
+		return Database.from(input).freshIngredients(1).toString();
 	}
 
 	part2(input: string): string {
-		return Database.fromString(input).freshIngredients(2).toString();
+		return Database.from(input).freshIngredients(2).toString();
 	}
 }
 

@@ -36,7 +36,7 @@ describe('Day 5', () => {
 	});
 
 	it('range from string', () => {
-		const range = Range.fromString("3-7");
+		const range = Range.from("3-7");
 		expect(range.start).toBe(3);
 		expect(range.end).toBe(7);
 	});
@@ -51,7 +51,7 @@ describe('Day 5', () => {
 			8
 		`;
 
-		const db = Database.fromString(data);
+		const db = Database.from(data);
 
 		expect(db.fresh.length).toBe(2);
 

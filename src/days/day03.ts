@@ -10,7 +10,7 @@ export class Bank {
 		this.batteries = batteries;
 	}
 
-	static fromLine(line: string): Bank {
+	static from(line: string): Bank {
 		return new Bank(line.split("").map(ch => parseInt(ch, 10)));
 	}
 
@@ -44,7 +44,7 @@ export class Day03 extends Day {
 	}
 
 	parse(input: string): Bank[] {
-		return input.split("\n").map(line => line.trim()).map(line => Bank.fromLine(line));
+		return input.split("\n").map(line => line.trim()).map(line => Bank.from(line));
 	}
 }
 
