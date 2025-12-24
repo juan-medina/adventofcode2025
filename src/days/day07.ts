@@ -107,14 +107,9 @@ export class Tachyon {
 		}
 
 		const below = this.at(x, y + 1);
-		if (below === Space.Empty) {
-			result = this.paths(x, y + 1);
-			this.cache.set(key, result);
-			return result;
-		}
 
-		if (below === Space.Splitter) { // spaces from left and right
-			let paths = 0;
+		if (below === Space.Splitter) {
+			let paths = 0; // paths from left and right
 			if (x - 1 >= 0 && this.at(x - 1, y + 1) === Space.Empty) {
 				paths += this.paths(x - 1, y + 1);
 			}
@@ -126,7 +121,7 @@ export class Tachyon {
 			return result;
 		}
 
-		result = 0;
+		result = this.paths(x, y + 1);
 		this.cache.set(key, result);
 		return result;
 	}
