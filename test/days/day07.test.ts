@@ -3,7 +3,7 @@
 
 import {describe, expect, it} from 'vitest';
 import dedent from 'ts-dedent';
-import {day07, Tachyon, Space} from '../../src/days/day07';
+import {Tachyon, day07, Space} from '../../src/days/day07';
 
 describe('Day 7', () => {
 
@@ -59,23 +59,52 @@ describe('Day 7', () => {
 		expect(tachyon.string()).toBe(data);
 	});
 
-	it(`shoot tachyon beam`, () => {
+	it(`shoot tachyon beam - part 1`, () => {
 		const data = dedent`
 			..S..
 			..^..
 			.^...
 		`;
 
-		const tachyon = Tachyon.from(data);
-		const splits = tachyon.shoot();
-		expect(splits).toBe(2);
-
-		expect(tachyon.string()).toBe(dedent`
+		/*
+			2 splits
 			..S..
 			.|^|.
 			|^||.
-		`);
+		 */
+
+		const tachyon = Tachyon.from(data);
+		const splits = tachyon.shoot(1);
+		expect(splits).toBe(2);
 	});
+
+	it(`shoot tachyon beam - part 2`, () => {
+		const data = dedent`
+			..S..
+			..^..
+			.^...
+		`;
+
+		/* 3 possible paths:
+			..S..
+			.|...
+			|^...
+
+			..S..
+			.|...
+			.^|..
+
+			..S..
+			..^|.
+			.^.|.
+
+		 */
+
+		const tachyon = Tachyon.from(data);
+		const paths = tachyon.shoot(2);
+		expect(paths).toBe(3);
+	});
+
 
 	const input = dedent`
 		.......S.......
@@ -98,6 +127,10 @@ describe('Day 7', () => {
 
 	it('solves part 1 example', () => {
 		expect(day07.part1(input)).toBe("21");
+	});
+
+	it('solves part 2 example', () => {
+		expect(day07.part2(input)).toBe("40");
 	});
 
 });

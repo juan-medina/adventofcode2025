@@ -60,8 +60,12 @@ export class Tachyon {
 		return this.map.join("\n");
 	}
 
-	shoot(): number {
-		return this.traverse(this.start.x, this.start.y);
+	shoot(part: number): number {
+		if (part === 1) {
+			return this.traverse(this.start.x, this.start.y);
+		}
+		this.cache.clear()
+		return this.paths(this.start.x, this.start.y);
 	}
 
 	traverse(x: number, y: number): number {
@@ -73,13 +77,11 @@ export class Tachyon {
 			} else {
 				if (this.at(x, y + 1) === Space.Splitter) {
 					splits += 1;
-					// check if left is possible
-					if (x - 1 >= 0 && this.at(x - 1, y + 1) === Space.Empty) {
+					if (x - 1 >= 0 && this.at(x - 1, y + 1) === Space.Empty) { // left
 						this.set(x - 1, y + 1, Space.Beam);
 						splits += this.traverse(x - 1, y + 1);
 					}
-					// check if right is possible
-					if (x + 1 < this.size.width && this.at(x + 1, y + 1) === Space.Empty) {
+					if (x + 1 < this.size.width && this.at(x + 1, y + 1) === Space.Empty) { // right
 						this.set(x + 1, y + 1, Space.Beam);
 						splits += this.traverse(x + 1, y + 1);
 					}
@@ -89,16 +91,56 @@ export class Tachyon {
 
 		return splits
 	}
+
+
+	private cache: Map<string, number> = new Map();
+
+	paths(x: number, y: number): number {
+		const key = `${x},${y}`;
+		if (this.cache.has(key)) return this.cache.get(key)!;
+
+		let result: number;
+		if (y + 1 >= this.size.height) { // bottom reached
+			result = 1;
+			this.cache.set(key, result);
+			return result;
+		}
+
+		const below = this.at(x, y + 1);
+		if (below === Space.Empty) {
+			result = this.paths(x, y + 1);
+			this.cache.set(key, result);
+			return result;
+		}
+
+		if (below === Space.Splitter) { // spaces from left and right
+			let paths = 0;
+			if (x - 1 >= 0 && this.at(x - 1, y + 1) === Space.Empty) {
+				paths += this.paths(x - 1, y + 1);
+			}
+			if (x + 1 < this.size.width && this.at(x + 1, y + 1) === Space.Empty) {
+				paths += this.paths(x + 1, y + 1);
+			}
+			result = paths;
+			this.cache.set(key, result);
+			return result;
+		}
+
+		result = 0;
+		this.cache.set(key, result);
+		return result;
+	}
+
 }
 
 export class Day07 extends Day {
 
 	part1(input: string): string {
-		return Tachyon.from(input).shoot().toString();
+		return Tachyon.from(input).shoot(1).toString();
 	}
 
 	part2(input: string): string {
-		throw new Error("Method not implemented.");
+		return Tachyon.from(input).shoot(2).toString();
 	}
 }
 
