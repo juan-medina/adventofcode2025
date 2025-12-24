@@ -5,8 +5,8 @@ import {describe, it, expect} from "vitest";
 import {Solvers} from "../../src/days";
 
 describe("days/index", () => {
-	it("exports solvers for days 1..6 and each has part1 and part2", () => {
-		const expectedDays = [1, 2, 3, 4, 5, 6];
+	it("exports solvers for days 1..7 and each has part1 and part2", () => {
+		const expectedDays = [1, 2, 3, 4, 5, 6, 7];
 
 		expectedDays.forEach((d) => {
 			const solver = (Solvers as any)[d];
