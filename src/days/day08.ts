@@ -3,7 +3,6 @@
 
 import {Day} from "./day";
 
-
 interface Edge {
 	i: number;
 	j: number;
@@ -50,33 +49,6 @@ export class Point {
 	}
 }
 
-export class Circuit {
-	points: Point[] = [];
-
-	constructor(points: Point[]) {
-		this.points = points;
-	}
-
-	contains(point: Point): boolean {
-		return this.points.some(p => p.x === point.x && p.y === point.y && p.z === point.z);
-	}
-
-	distance(): number {
-		return this.points[0].distance(this.points[1]);
-	}
-
-	static contained(circuits: Circuit[], point: Point): Circuit | null {
-		for (let circuit of circuits) {
-			if (circuit.contains(point)) {
-				return circuit;
-			}
-		}
-		return null;
-	}
-
-
-}
-
 class DisjointSet {
 	parent: number[];
 	size: number[];
@@ -116,27 +88,34 @@ class DisjointSet {
 }
 
 export class Day08 extends Day {
-	part1Connections: number = 1000;
+	connections: number = 1000;
 
-	solve(input: string, connections: number): number {
+	solve(input: string, part: number): number {
 		const points: Point[] = Point.parse(input);
 		const edges = Point.edges(points);
 		const set = new DisjointSet(points.length);
-		for (let connection = 0; connection < connections; connection++) {
-			if (connection > edges.length - 1) break;
+		const limit = part === 1 ? this.connections : edges.length;
+		let components = points.length;
+		for (let connection = 0; connection < limit; connection++) {
 			const edge = edges[connection];
-			set.union(edge.i, edge.j);
+			if (set.union(edge.i, edge.j) && part == 2) {
+				components--;
+				if (components === 1) {
+					return points[edge.i].x * points[edge.j].x;
+				}
+			}
 		}
+
 		return set.sizes().sort((a, b) => b - a).slice(0, 3).reduce((a, b) => a * b);
 	}
 
 	part1(input: string): string {
-		return this.solve(input, this.part1Connections).toString();
+		return this.solve(input, 1).toString();
 	}
 
 
 	part2(input: string): string {
-		throw new Error("Method not implemented.");
+		return this.solve(input, 2).toString();
 	}
 }
 

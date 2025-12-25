@@ -3,7 +3,7 @@
 
 import {describe, expect, it} from 'vitest';
 import dedent from 'ts-dedent';
-import {Circuit, day08, Point} from '../../src/days/day08';
+import {day08, Point} from '../../src/days/day08';
 
 describe('Day 8', () => {
 
@@ -48,49 +48,6 @@ describe('Day 8', () => {
 		expect(p4.distance(p3)).toBe(expected3);
 	});
 
-	it('create circuit', () => {
-		const points: Point[] = [
-			new Point(0, 0, 0),
-			new Point(1, 1, 1),
-			new Point(2, 2, 2)
-		];
-
-		const circuit = new Circuit(points);
-		expect(circuit.points).length(3);
-		expect(circuit.points).toContainEqual(new Point(0, 0, 0));
-		expect(circuit.points).toContainEqual(new Point(1, 1, 1));
-		expect(circuit.points).toContainEqual(new Point(2, 2, 2));
-	});
-
-	it('circuit contains point', () => {
-		const points: Point[] = [
-			new Point(0, 0, 0),
-			new Point(1, 1, 1),
-			new Point(2, 2, 2)
-		];
-
-		const circuit = new Circuit(points);
-		expect(circuit.contains(new Point(1, 1, 1))).toBe(true);
-		expect(circuit.contains(new Point(3, 3, 3))).toBe(false);
-	});
-
-	it('circuit contained in circuits', () => {
-		const circuit1 = new Circuit([new Point(0, 0, 0), new Point(1, 1, 1)]);
-		const circuit2 = new Circuit([new Point(2, 2, 2), new Point(3, 3, 3)]);
-		const circuits = [circuit1, circuit2];
-
-		expect(Circuit.contained(circuits, new Point(1, 1, 1))).toBe(circuit1);
-		expect(Circuit.contained(circuits, new Point(3, 3, 3))).toBe(circuit2);
-		expect(Circuit.contained(circuits, new Point(4, 4, 4))).toBeNull();
-	});
-
-	it('circuit distance', () => {
-		const p1 = new Point(0, 0, 0);
-		const p2 = new Point(1, 1, 1);
-		const circuit = new Circuit([p1, p2]);
-		expect(circuit.distance()).toBe(p1.distance(p2));
-	});
-
 	const input = dedent`
 		162,817,812
 		57,618,57
@@ -115,8 +72,12 @@ describe('Day 8', () => {
     `;
 
 	it('solves part 1 example', () => {
-		day08.part1Connections = 10;
+		day08.connections = 10; // Set connections to 10 for this test
 		expect(day08.part1(input)).toBe("40");
+	});
+
+	it('solves part 2 example', () => {
+		expect(day08.part2(input)).toBe("25272");
 	});
 
 });
