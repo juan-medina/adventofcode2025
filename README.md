@@ -13,7 +13,7 @@ This repository contains solutions for [Advent of Code 2025](https://adventofcod
 ## Getting Started
 
 ### Prerequisites
-- [Node.js](https://nodejs.org/) (v18 or newer recommended)
+- [Node.js](https://nodejs.org/) (v22 or newer recommended)
 - [npm](https://www.npmjs.com/)
 
 ### Install Dependencies
