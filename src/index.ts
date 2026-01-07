@@ -38,7 +38,10 @@ function measureTime<T>(fn: () => T): { result: T; ms: number } {
 	const start = process.hrtime.bigint();
 	const result = fn();
 	const end = process.hrtime.bigint();
-	const ms = Number(end - start) / 1_000_000;
+	const ns = end - start;
+	// Convert nanoseconds to milliseconds with higher precision
+	// Using division on BigInt first, then converting to Number preserves more precision
+	const ms = Number(ns) / 1_000_000;
 	return { result, ms };
 }
 
